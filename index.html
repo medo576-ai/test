@@ -1,65 +1,175 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>3D Frames AR</title>
-  <script type="module">
-    import '@google/model-viewer';
-  </script>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      flex-direction: column;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-      background-color: #f4f4f4;
-    }
-    h1 {
-      margin-bottom: 20px;
-    }
-    .frame-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    model-viewer {
-      width: 100%;
-      max-width: 500px;
-      height: 500px;
-      margin: 10px 0;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Frame WebAR</title>
+    <script type="module" src="https://unpkg.com/@google/model-viewer"></script>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #dcdcdc; /* Light gray background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column; /* Allow for text at the top */
+        }
+
+        /* Text at the top */
+        .info-text {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%); /* Center the text horizontally */
+            font-size: 16px; /* Increased font size to 16px for readability */
+            color: black;
+            text-align: center;
+        }
+
+        /* Remove border and box around the model */
+        model-viewer {
+            width: 80vw;
+            height: 80vh;
+            position: relative;
+            z-index: 1;
+            background-color: #dcdcdc; /* Light gray background */
+        }
+
+        /* AR Button Styling */
+        .ar-button {
+            position: absolute;
+            bottom: 30px; /* Adjusted distance from the bottom */
+            right: 16px;
+            width: 40px; /* Reduced size */
+            height: 40px; /* Reduced size */
+            background: #dcdcdc; /* Same as the background */
+            border-radius: 50%;
+            border: 2px solid black;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+            z-index: 10;
+        }
+        .ar-button img {
+            width: 24px; /* Reduced icon size */
+            height: 24px; /* Reduced icon size */
+        }
+
+        /* Model Name Box */
+        .model-box {
+            display: flex;
+            flex-direction: column;
+            position: absolute;
+            top: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+        }
+
+        .model-box button {
+            background-color: #f0f0f0;
+            color: black;
+            font-size: 1rem;
+            padding: 10px;
+            margin: 5px;
+            border: 2px solid black;
+            cursor: pointer;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .model-box button:hover {
+            background-color: #dcdcdc;
+        }
+        
+        /* Color Change Buttons */
+        .color-buttons {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            flex-direction: column;
+            z-index: 10;
+        }
+
+        .boton-elegante {
+            padding: 10px 20px;
+            border: 2px solid black; /* Black border */
+            background-color: #dcdcdc; /* Light gray */
+            color: black; /* Black text */
+            font-size: 1rem;
+            cursor: pointer;
+            border-radius: 20px;
+            transition: all 0.4s ease;
+            outline: none;
+            position: relative;
+            overflow: hidden;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .boton-elegante:hover {
+            background-color: #dcdcdc; /* Slightly darker gray */
+        }
+    </style>
 </head>
 <body>
 
-  <h1>Select a Frame Model</h1>
+    <!-- Text on top of the page -->
+    <div class="info-text">The 3D models are not 100% like reality</div>
 
-  <div class="frame-container">
-    <h2>Arcane</h2>
-    <model-viewer src="https://res.cloudinary.com/dwc7ebhc5/image/upload/v1738060375/black_3d_frame_model_Arcane_jzpr2b.glb" alt="Arcane Black Frame" ar></model-viewer>
-    <model-viewer src="https://res.cloudinary.com/dwc7ebhc5/image/upload/v1738060397/whita_3d_frame_model_Arcane_c1bh4v.glb" alt="Arcane White Frame" ar></model-viewer>
-    <model-viewer src="https://res.cloudinary.com/dwc7ebhc5/image/upload/v1738060391/gold_3d_frame_model_Arcane_jmtkqy.glb" alt="Arcane Gold Frame" ar></model-viewer>
-  </div>
+    <!-- 3D Frame Viewer -->
+    <model-viewer 
+        id="frameViewer"
+        src="https://res.cloudinary.com/dwc7ebhc5/image/upload/v1738060375/black_3d_frame_model_Arcane_jzpr2b.glb"
+        ar 
+        ar-modes="scene-viewer quick-look webxr"
+        ar-placement="wall"
+        environment-image="neutral"
+        disable-pan
+        disable-tap
+        disable-zoom
+        camera-controls
+        auto-rotate>
+        
+        <!-- AR Button -->
+        <button slot="ar-button" class="ar-button">
+            <img src="https://cdn-icons-png.flaticon.com/512/25/25694.png" alt="AR">
+        </button>
+    </model-viewer>
 
-  <div class="frame-container">
-    <h2>BMW</h2>
-    <model-viewer src="https://res.cloudinary.com/dwc7ebhc5/image/upload/v1738059939/black_3d_frame_model_bmw_zrtmo6.glb" alt="BMW Black Frame" ar></model-viewer>
-    <model-viewer src="https://res.cloudinary.com/dwc7ebhc5/image/upload/v1738059948/whita_3d_frame_model_bmw_jj5sru.glb" alt="BMW White Frame" ar></model-viewer>
-    <model-viewer src="https://res.cloudinary.com/dwc7ebhc5/image/upload/v1738059953/gold_3d_frame_model_bmw_v2q1iz.glb" alt="BMW Gold Frame" ar></model-viewer>
-  </div>
+    <!-- Model Selector -->
+    <div class="model-box">
+        <button onclick="changeModel('black')">Arcane Black Frame</button>
+        <button onclick="changeModel('white')">Arcane White Frame</button>
+        <button onclick="changeModel('gold')">Arcane Gold Frame</button>
+        <!-- Add other models as needed -->
+    </div>
 
-  <div class="frame-container">
-    <h2>Bryant</h2>
-    <model-viewer src="https://res.cloudinary.com/dwc7ebhc5/image/upload/v1738060063/black_3d_frame_model_Bryant_xvtj3l.glb" alt="Bryant Black Frame" ar></model-viewer>
-    <model-viewer src="https://res.cloudinary.com/dwc7ebhc5/image/upload/v1738060063/white_3d_frame_model_Bryant_knmywi.glb" alt="Bryant White Frame" ar></model-viewer>
-    <model-viewer src="https://res.cloudinary.com/dwc7ebhc5/image/upload/v1738060091/gold_3d_frame_model_Bryant_owdn18.glb" alt="Bryant Gold Frame" ar></model-viewer>
-  </div>
+    <!-- Color Change Buttons -->
+    <div class="color-buttons">
+        <button class="boton-elegante" onclick="changeModel('black')">Black</button>
+        <button class="boton-elegante white-btn" onclick="changeModel('white')">White</button>
+        <button class="boton-elegante gold-btn" onclick="changeModel('gold')">Gold</button>
+    </div>
 
-  <!-- Add more frame sections as needed for the rest of the models -->
+    <script>
+        function changeModel(color) {
+            const frameViewer = document.getElementById("frameViewer");
+            if (color === 'black') {
+                frameViewer.src = "https://res.cloudinary.com/dwc7ebhc5/image/upload/v1738060375/black_3d_frame_model_Arcane_jzpr2b.glb";
+            } else if (color === 'white') {
+                frameViewer.src = "https://res.cloudinary.com/dwc7ebhc5/image/upload/v1738060397/whita_3d_frame_model_Arcane_c1bh4v.glb";
+            } else if (color === 'gold') {
+                frameViewer.src = "https://res.cloudinary.com/dwc7ebhc5/image/upload/v1738060391/gold_3d_frame_model_Arcane_jmtkqy.glb";
+            }
+        }
+    </script>
 
 </body>
 </html>
